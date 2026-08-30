@@ -1,6 +1,5 @@
 package com.kridan.booking.entity;
 
-import com.kridan.booking.entity.Role;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class AppUserDetails extends org.springframework.security.core.userdetails.User {

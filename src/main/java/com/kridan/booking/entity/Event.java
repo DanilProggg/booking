@@ -2,6 +2,7 @@ package com.kridan.booking.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,7 @@ public class Event {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<Seat> seats = new ArrayList<>();
+    private List<Ticket> seats = new ArrayList<>();
 
     @Column(nullable = false)
     private Date date;

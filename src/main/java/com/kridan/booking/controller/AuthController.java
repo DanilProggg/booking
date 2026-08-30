@@ -5,6 +5,7 @@ import com.kridan.booking.controller.dto.RegistrationRequest;
 import com.kridan.booking.controller.dto.UserResponse;
 import com.kridan.booking.entity.AppUserDetails;
 import com.kridan.booking.entity.User;
+import com.kridan.booking.exceptions.UserAlreadyExistException;
 import com.kridan.booking.service.AppUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.session.ChangeSessionIdAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +37,8 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository =
             new HttpSessionSecurityContextRepository();
+    private final SessionAuthenticationStrategy sessionStrategy =
+            new ChangeSessionIdAuthenticationStrategy();
 
 
     public AuthController(AppUserDetailsService appUserDetailsService, AuthenticationManager authenticationManager) {
@@ -47,7 +52,10 @@ public class AuthController {
             User user = appUserDetailsService.createUser(registrationRequest.email(), registrationRequest.password());
             return ResponseEntity
                     .created(URI.create("/api/users/" + user.getId()))
-                    .body(user);
+                    .body(UserResponse.from(user));
+        }catch (UserAlreadyExistException userAlreadyExistException) {
+            log.error(userAlreadyExistException.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exist");
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user data");
@@ -64,7 +72,7 @@ public class AuthController {
 
         Authentication authenticated = authenticationManager.authenticate(unauthenticated);
 
-        httpRequest.changeSessionId();
+        sessionStrategy.onAuthentication(authenticated, httpRequest, httpResponse);
 
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authenticated);

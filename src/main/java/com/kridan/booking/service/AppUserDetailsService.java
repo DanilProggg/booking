@@ -1,5 +1,6 @@
 package com.kridan.booking.service;
 
+import com.kridan.booking.entity.Role;
 import com.kridan.booking.entity.User;
 import com.kridan.booking.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
@@ -24,7 +27,6 @@ public class AppUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
 
-
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
@@ -37,7 +39,8 @@ public class AppUserDetailsService implements UserDetailsService {
     public User createUser(String email, String rawPassword){
         User user = new User(
             email,
-            passwordEncoder.encode(rawPassword)
+            passwordEncoder.encode(rawPassword),
+            Set.of(Role.USER)
         );
 
         userRepository.save(user);

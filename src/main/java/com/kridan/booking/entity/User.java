@@ -15,10 +15,10 @@ import java.util.Set;
 @Table(name = "usr")
 public class User {
 
-    public User(String email, String password) {
+    public User(String email, String password, Set<Role> roles) {
         this.email = email;
         this.password = password;
-        this.roles = Set.of(Role.USER);
+        this.roles = roles;
     }
 
     @Id

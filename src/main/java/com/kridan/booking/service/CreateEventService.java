@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class CreateEventService {
     private final EventRepository eventRepository;
 
-    private Event createEvent(){
+    private void createEvent(){
         //seat`s creation
 
 

@@ -32,6 +32,9 @@ public class Event {
     )
     private List<Ticket> seats = new ArrayList<>();
 
+    @ManyToOne
+    private VenueHall venueHall;
+
     @Column(nullable = false)
     private Date date;
 }

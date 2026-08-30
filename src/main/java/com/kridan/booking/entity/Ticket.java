@@ -33,4 +33,7 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "usr_id", nullable = true)
     private User user;
+
+    @ManyToOne
+    private VenueSeat venueSeat;
 }

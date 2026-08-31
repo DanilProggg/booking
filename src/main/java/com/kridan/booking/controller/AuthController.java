@@ -10,44 +10,45 @@ import com.kridan.booking.service.AppUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.session.ChangeSessionIdAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AppUserDetailsService appUserDetailsService;
     private final AuthenticationManager authenticationManager;
-    private final SecurityContextRepository securityContextRepository =
-            new HttpSessionSecurityContextRepository();
-    private final SessionAuthenticationStrategy sessionStrategy =
-            new ChangeSessionIdAuthenticationStrategy();
+    private final SecurityContextRepository securityContextRepository;
+    private final SessionAuthenticationStrategy sessionStrategy;
 
 
-    public AuthController(AppUserDetailsService appUserDetailsService, AuthenticationManager authenticationManager) {
-        this.appUserDetailsService = appUserDetailsService;
-        this.authenticationManager = authenticationManager;
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me(@AuthenticationPrincipal AppUserDetails principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(UserResponse.from(principal));
     }
 
     @PostMapping("/signup")
-    private ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest){
         try {
             User user = appUserDetailsService.createUser(registrationRequest.email(), registrationRequest.password());
             return ResponseEntity

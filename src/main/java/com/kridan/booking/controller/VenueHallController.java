@@ -7,12 +7,10 @@ import com.kridan.booking.service.dto.VenueHallCreationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,9 +20,9 @@ public class VenueHallController {
     private final VenueHallService venueHallService;
 
     @PostMapping()
-    private ResponseEntity<?> addVenueHall(@RequestBody VenueHallCreationDto venueHallCreationDto){
+    public ResponseEntity<?> addVenueHall(@RequestBody VenueHallCreationDto venueHallCreationDto){
         try {
-            log.debug("Venuehall POST request called");
+            log.debug("Venuehalls POST request called");
             VenueHall venueHall = venueHallService.addHall(venueHallCreationDto);
             return ResponseEntity
                     .created(URI.create("/api/users/" + venueHall.getId()))
@@ -32,6 +30,18 @@ public class VenueHallController {
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseEntity.badRequest().body("Data are invalid");
+        }
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getVenueHalls(){
+        try {
+            log.debug("Venuehalls GET request called");
+            List<VenueHall> venueHallList = venueHallService.getHalls();
+            return ResponseEntity.ok(venueHallList);
+        } catch (Exception ex){
+            log.error(ex.getMessage());
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 }

@@ -30,11 +30,18 @@ public class Event {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<Ticket> seats = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<>();
 
     @ManyToOne
     private VenueHall venueHall;
 
     @Column(nullable = false)
     private Date date;
+
+    public Event(String name, String description, VenueHall venueHall, Date date) {
+        this.name = name;
+        this.description = description;
+        this.venueHall = venueHall;
+        this.date = date;
+    }
 }

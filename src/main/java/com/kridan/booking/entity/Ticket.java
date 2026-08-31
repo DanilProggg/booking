@@ -15,15 +15,6 @@ public class Ticket {
     private Long id;
 
     @Column(nullable = false)
-    private String type; //usual- vip
-
-    @Column(nullable = false)
-    private String sector; //sitting - table - table
-
-    @Column(nullable = false)
-    private int number;
-
-    @Column(nullable = false)
     private int cost;  //Default Euro
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

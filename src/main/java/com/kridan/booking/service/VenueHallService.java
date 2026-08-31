@@ -10,6 +10,8 @@ import com.kridan.booking.service.dto.VenueSeatUnitCreationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,5 +50,10 @@ public class VenueHallService {
 
         venueSeatRepository.saveAll(seats);
         return venueHall;
+    }
+
+    public List<VenueHall> getHalls(){
+        List<VenueHall> venueHalls = venueHallRepository.findAll();
+        return venueHalls;
     }
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Event {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false)
@@ -38,10 +39,13 @@ public class Event {
     @Column(nullable = false)
     private Date date;
 
-    public Event(String name, String description, VenueHall venueHall, Date date) {
+    public Event(String name, String description, VenueHall venueHall, List<VenueSeat> venueSeats, Date date) {
         this.name = name;
         this.description = description;
         this.venueHall = venueHall;
         this.date = date;
+        this.tickets = venueSeats.stream()
+                .map(venueSeat -> new Ticket(this, venueSeat))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

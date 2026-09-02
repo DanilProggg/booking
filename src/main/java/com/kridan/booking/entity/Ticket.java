@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -15,6 +17,12 @@ public class Ticket {
     private Long id;
 
     @Column(nullable = false)
+    private String status; //FREE, HELD, PENDING, SOLD
+
+    @Column(nullable = true)
+    private Date holdExpiresAt; //Holding expiration time
+
+    @Column(nullable = true)
     private int cost;  //Default Euro
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -27,4 +35,10 @@ public class Ticket {
 
     @ManyToOne
     private VenueSeat venueSeat;
+
+    public Ticket(Event event, VenueSeat venueSeat) {
+        this.event = event;
+        this.venueSeat = venueSeat;
+        this.status = "FREE";
+    }
 }

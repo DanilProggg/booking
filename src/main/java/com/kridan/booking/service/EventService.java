@@ -1,15 +1,16 @@
 package com.kridan.booking.service;
 
 import com.kridan.booking.entity.Event;
+import com.kridan.booking.entity.VenueHall;
 import com.kridan.booking.exceptions.HallNotFoundException;
 import com.kridan.booking.repository.EventRepository;
 import com.kridan.booking.repository.VenueHallRepository;
+import com.kridan.booking.repository.VenueSeatRepository;
 import com.kridan.booking.service.dto.EventCreationDto;
+import com.kridan.booking.service.dto.EventDto;
+import com.kridan.booking.service.dto.TicketDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -18,22 +19,71 @@ import java.util.List;
 public class EventService {
     private final EventRepository eventRepository;
     private final VenueHallRepository venueHallRepository;
+    private final VenueSeatRepository venueSeatRepository;
 
-    private Event addEvent(EventCreationDto eventCreationDto){
+    public EventDto addEvent(EventCreationDto eventCreationDto){
+        VenueHall venueHall = venueHallRepository.findById(eventCreationDto.venueHallId()).orElseThrow(
+                () -> new HallNotFoundException(String.format("Hall with ID %s not found", eventCreationDto.venueHallId())));
+
         Event event = new Event(
                 eventCreationDto.name(),
                 eventCreationDto.description(),
-                venueHallRepository.findById(eventCreationDto.venueHallId()).orElseThrow(
-                        () -> new HallNotFoundException(String.format("Hall with ID %s not found", eventCreationDto.venueHallId()))
-                ),
+                venueHall,
+                venueSeatRepository.findByVenueHallId(venueHall.getId()),
                 eventCreationDto.date()
         );
 
-        return eventRepository.save(event);
+        eventRepository.save(event);
+
+        EventDto eventDto = new EventDto(
+                event.getName(),
+                event.getDescription(),
+                event.getVenueHall().getId(),
+                event.getDate(),
+
+                event.getTickets().stream().map(
+                        ticket -> new TicketDto(
+                                ticket.getCost(),
+                                ticket.getEvent().getId(),
+                                ticket.getUser() == null ? null : ticket.getUser().getId(), //ticker without user at start
+                                ticket.getVenueSeat().getId(),
+                                ticket.getVenueSeat().getSector(),
+                                ticket.getVenueSeat().getType(),
+                                ticket.getVenueSeat().getNumber()
+                        )
+                ).toList()
+        );
+
+        return eventDto;
+
     }
 
-    private List<Event> getEvents(){
+    public List<EventDto> getEvents(){
         List<Event> events = eventRepository.findAll();
-        return events;
+
+        List<EventDto> eventDtos = events.stream()
+                .map(
+                        event -> new EventDto(
+                                event.getName(),
+                                event.getDescription(),
+                                event.getVenueHall().getId(),
+                                event.getDate(),
+
+                                event.getTickets().stream().map(
+                                        ticket -> new TicketDto(
+                                                ticket.getCost(),
+                                                ticket.getEvent().getId(),
+                                                ticket.getUser() == null ? null : ticket.getUser().getId(), //ticker without user at start
+                                                ticket.getVenueSeat().getId(),
+                                                ticket.getVenueSeat().getSector(),
+                                                ticket.getVenueSeat().getType(),
+                                                ticket.getVenueSeat().getNumber()
+                                        )
+                                ).toList()
+                        )
+                ).toList();
+
+        return eventDtos;
+
     }
 }

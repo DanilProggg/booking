@@ -1,9 +1,8 @@
 package com.kridan.booking.controller;
 
-import com.kridan.booking.controller.dto.UserResponse;
 import com.kridan.booking.entity.VenueHall;
-import com.kridan.booking.service.VenueHallService;
-import com.kridan.booking.service.dto.VenueHallCreationDto;
+import com.kridan.booking.service.venue.VenueHallService;
+import com.kridan.booking.service.venue.VenueHallCreationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

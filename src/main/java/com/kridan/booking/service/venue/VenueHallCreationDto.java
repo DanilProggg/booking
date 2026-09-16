@@ -1,4 +1,4 @@
-package com.kridan.booking.service.dto;
+package com.kridan.booking.service.venue;
 
 import java.util.List;
 

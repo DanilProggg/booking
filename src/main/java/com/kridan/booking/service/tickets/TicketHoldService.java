@@ -1,4 +1,4 @@
-package com.kridan.booking.service;
+package com.kridan.booking.service.tickets;
 
 import com.kridan.booking.exceptions.SeatUnavailableException;
 import com.kridan.booking.repository.TicketRepository;

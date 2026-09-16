@@ -1,14 +1,12 @@
-package com.kridan.booking.service;
+package com.kridan.booking.service.events;
 
 import com.kridan.booking.entity.Event;
 import com.kridan.booking.entity.VenueHall;
-import com.kridan.booking.exceptions.HallNotFoundException;
+import com.kridan.booking.service.venue.HallNotFoundException;
 import com.kridan.booking.repository.EventRepository;
 import com.kridan.booking.repository.VenueHallRepository;
 import com.kridan.booking.repository.VenueSeatRepository;
-import com.kridan.booking.service.dto.EventCreationDto;
-import com.kridan.booking.service.dto.EventDto;
-import com.kridan.booking.service.dto.TicketDto;
+import com.kridan.booking.service.tickets.TicketDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

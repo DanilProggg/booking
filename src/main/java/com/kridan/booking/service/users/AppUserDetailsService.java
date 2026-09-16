@@ -1,9 +1,8 @@
-package com.kridan.booking.service;
+package com.kridan.booking.service.users;
 
 import com.kridan.booking.entity.AppUserDetails;
 import com.kridan.booking.entity.Role;
 import com.kridan.booking.entity.User;
-import com.kridan.booking.exceptions.UserAlreadyExistException;
 import com.kridan.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

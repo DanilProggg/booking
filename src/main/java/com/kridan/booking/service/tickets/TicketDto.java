@@ -1,4 +1,4 @@
-package com.kridan.booking.service.dto;
+package com.kridan.booking.service.tickets;
 
 public record TicketDto(
         Integer cost,

@@ -1,4 +1,4 @@
-package com.kridan.booking.exceptions;
+package com.kridan.booking.service.users;
 
 public class UserAlreadyExistException extends RuntimeException {
     public UserAlreadyExistException(String message) {

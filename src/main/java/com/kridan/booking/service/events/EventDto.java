@@ -1,4 +1,6 @@
-package com.kridan.booking.service.dto;
+package com.kridan.booking.service.events;
+
+import com.kridan.booking.service.tickets.TicketDto;
 
 import java.util.Date;
 import java.util.List;

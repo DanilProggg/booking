@@ -1,9 +1,8 @@
 package com.kridan.booking.controller;
 
-import com.kridan.booking.entity.Event;
-import com.kridan.booking.service.EventService;
-import com.kridan.booking.service.dto.EventCreationDto;
-import com.kridan.booking.service.dto.EventDto;
+import com.kridan.booking.service.events.EventService;
+import com.kridan.booking.service.events.EventCreationDto;
+import com.kridan.booking.service.events.EventDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.kridan.booking.controller;
 
 import com.kridan.booking.exceptions.SeatUnavailableException;
-import com.kridan.booking.service.TicketHoldService;
+import com.kridan.booking.service.tickets.TicketHoldService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

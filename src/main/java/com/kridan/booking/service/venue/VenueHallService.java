@@ -1,17 +1,13 @@
-package com.kridan.booking.service;
+package com.kridan.booking.service.venue;
 
 
 import com.kridan.booking.entity.VenueHall;
 import com.kridan.booking.entity.VenueSeat;
 import com.kridan.booking.repository.VenueHallRepository;
 import com.kridan.booking.repository.VenueSeatRepository;
-import com.kridan.booking.service.dto.VenueHallCreationDto;
-import com.kridan.booking.service.dto.VenueSeatUnitCreationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;

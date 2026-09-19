@@ -47,6 +47,7 @@ public class EventService {
 
                 event.getTickets().stream().map(
                         ticket -> new TicketDto(
+                                ticket.getId(),
                                 ticket.getCost(),
                                 ticket.getEvent().getId(),
                                 ticket.getUser() == null ? null : ticket.getUser().getId(), //ticker without user at start
@@ -77,6 +78,7 @@ public class EventService {
 
                                 event.getTickets().stream().map(
                                         ticket -> new TicketDto(
+                                                ticket.getId(),
                                                 ticket.getCost(),
                                                 ticket.getEvent().getId(),
                                                 ticket.getUser() == null ? null : ticket.getUser().getId(), //ticker without user at start
@@ -108,6 +110,7 @@ public class EventService {
 
                 event.getTickets().stream().map(
                         ticket -> new TicketDto(
+                                ticket.getId(),
                                 ticket.getCost(),
                                 ticket.getEvent().getId(),
                                 ticket.getUser() == null ? null : ticket.getUser().getId(), //ticker without user at start

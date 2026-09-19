@@ -22,6 +22,9 @@ public class Event {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String publishStatus;  // DRAFT, PUBLISHED, ARCHIVED
+
     @Column(nullable = true)
     private String description;
 
@@ -41,6 +44,7 @@ public class Event {
 
     public Event(String name, String description, VenueHall venueHall, List<VenueSeat> venueSeats, Date date) {
         this.name = name;
+        this.publishStatus = "DRAFT";
         this.description = description;
         this.venueHall = venueHall;
         this.date = date;

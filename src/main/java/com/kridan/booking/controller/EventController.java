@@ -1,8 +1,6 @@
 package com.kridan.booking.controller;
 
-import com.kridan.booking.service.events.EventService;
-import com.kridan.booking.service.events.EventCreationDto;
-import com.kridan.booking.service.events.EventDto;
+import com.kridan.booking.service.events.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +32,29 @@ public class EventController {
         try {
             List<EventDto> eventDtos = eventService.getEvents();
             return ResponseEntity.ok(eventDtos);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseEntity.internalServerError().body("Error has been occurred");
+        }
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<?> getEventById(@PathVariable Long eventId){
+        try {
+            EventDto eventDto = eventService.getEventById(eventId);
+            return ResponseEntity.ok(eventDto);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseEntity.internalServerError().body("Error has been occurred");
+        }
+    }
+
+
+    @PatchMapping("/{eventId}")
+    public ResponseEntity<?> setCost(@PathVariable Long eventId, @RequestBody List<CostPatchUnit> costPatchUnits){
+        try {
+            eventService.changeCostInEvent(eventId, costPatchUnits);
+            return ResponseEntity.noContent().build();
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseEntity.internalServerError().body("Error has been occurred");

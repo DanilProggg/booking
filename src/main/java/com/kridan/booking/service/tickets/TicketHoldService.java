@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,16 +19,17 @@ public class TicketHoldService {
     private final TicketRepository ticketRepository;
 
     @Transactional
-    public void holdTicket(Long ticketId, Long eventId){
+    public void holdTicket(List<Long> ticketIds, Long eventId){
         Date dateNow = new Date();
         int result = ticketRepository.tryHold(
-                ticketId,
+                ticketIds,
                 eventId,
                 Date.from(Instant.now().plus(Duration.ofMinutes(15))),
+                UUID.randomUUID().toString(),
                 dateNow
         );
 
-        if (result <= 0) throw new SeatUnavailableException(String.format("Seat %s is unavailable", ticketId));
+        if (result != ticketIds.size()) throw new SeatUnavailableException("Some tickets are unavailable");
 
     }
 }

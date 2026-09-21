@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
@@ -16,14 +17,16 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("""
             update Ticket t
             set t.status = 'HELD',
-                t.holdExpiresAt = :expiresAt
-            where t.id = :ticketId
+                t.holdExpiresAt = :expiresAt,
+                t.holdKey = :holdKey
+            where t.id in :ticketIds
               and t.event.id = :eventId
               and (t.status = 'FREE'
                    or (t.status = 'HELD' and t.holdExpiresAt < :now))
             """)
-    int tryHold(@Param("ticketId") Long ticketId,
+    int tryHold(@Param("ticketIds") List<Long> ticketIds,
                 @Param("eventId") Long eventId,
                 @Param("expiresAt") Date expiresAt,
+                @Param("holdKey") String holdKey,
                 @Param("now") Date now);
 }

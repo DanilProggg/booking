@@ -19,7 +19,8 @@ public class Ticket {
     @Column(nullable = false)
     private String status; //FREE, HELD, PENDING, SOLD
 
-    @Column(nullable = true)
+    private String holdKey;  //Key to mark group of ticket in pending
+
     private Date holdExpiresAt; //Holding expiration time
 
     @Column(nullable = true)

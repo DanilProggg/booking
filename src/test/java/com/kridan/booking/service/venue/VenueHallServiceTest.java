@@ -89,4 +89,24 @@ class VenueHallServiceTest {
 
         assertThat(venueSeatCaptor.getValue()).hasSize(trueAmountOfSeats);
     }
+
+    @Test
+    void addHall_shouldBeUniqueNumberOfSeatsInOneSector(@Captor ArgumentCaptor<List<VenueSeat>> venueSeatCaptor){
+        VenueHallCreationDto venueHallCreationDto = new VenueHallCreationDto(
+                "Большой зал", "Основной", List.of(
+                new VenueSeatUnitCreationDto(10,"A", "VIP"),
+                new VenueSeatUnitCreationDto(10,"B", "Standard"))
+        );
+
+        venueHallService.addHall(venueHallCreationDto);
+
+        verify(venueSeatRepository).saveAll(venueSeatCaptor.capture());
+
+        List<VenueSeat> seats = venueSeatCaptor.getValue();
+
+        assertThat(seats)
+                .extracting(VenueSeat::getSector, VenueSeat::getNumber)
+                .doesNotHaveDuplicates();
+
+    }
 }

@@ -73,6 +73,8 @@ class VenueHallServiceTest {
     @Test
     void addHall_shouldAddSeatsInTheirRepository(@Captor ArgumentCaptor<List<VenueSeat>> venueSeatCaptor) {
 
+        int trueAmountOfSeats = 20;
+
         VenueHallCreationDto venueHallCreationDto = new VenueHallCreationDto(
                 "Большой зал", "Основной", List.of(
                 new VenueSeatUnitCreationDto(10,"A", "VIP"),
@@ -85,8 +87,6 @@ class VenueHallServiceTest {
         //Capture arguments
         verify(venueSeatRepository).saveAll(venueSeatCaptor.capture());
 
-        int seatAmount = venueHallCreationDto.venueSeatList().stream().mapToInt(VenueSeatUnitCreationDto::amount).sum();
-
-        assertThat(seatAmount).isEqualTo();
+        assertThat(venueSeatCaptor.getValue()).hasSize(trueAmountOfSeats);
     }
 }

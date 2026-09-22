@@ -25,4 +25,10 @@ public class VenueHall {
         this.name = name;
         this.description = description;
     }
+
+    public VenueHall(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 }

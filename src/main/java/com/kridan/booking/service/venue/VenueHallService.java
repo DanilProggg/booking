@@ -25,22 +25,25 @@ public class VenueHallService {
     public VenueHall addHall(VenueHallCreationDto venueHallCreationDto){
         VenueHall venueHall = venueHallRepository.save(new VenueHall(
                 venueHallCreationDto.name().trim(),
-                venueHallCreationDto.description()));
-
-
+                venueHallCreationDto.description())
+        );
 
         Map<String, Integer> nextNumberBySector = new HashMap<>();
         List<VenueSeat> seats = new ArrayList<>();
 
-        for (VenueSeatUnitCreationDto vhsud: venueHallCreationDto.venueSeatUnitCreationDtoList()){
-            String sector = vhsud.sector().trim();
-            String type = vhsud.type().trim();
+        for (VenueSeatUnitCreationDto vsuсd: venueHallCreationDto.venueSeatList()){
+            String sector = vsuсd.sector().trim();
+            String type = vsuсd.type().trim();
+
+            //Set counter
             int number = nextNumberBySector.getOrDefault(sector, 1);
 
-            for (int i = 0; i < vhsud.amount(); i++) {
+            // Create one type seats
+            for (int i = 0; i < vsuсd.amount(); i++) {
                 seats.add(new VenueSeat(sector, type, number++, venueHall));
             }
 
+            // Save counter
             nextNumberBySector.put(sector, number);
         }
 

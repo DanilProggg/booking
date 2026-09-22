@@ -31,7 +31,7 @@ public class EventService {
                 eventCreationDto.name(),
                 eventCreationDto.description(),
                 venueHall,
-                venueSeatRepository.findByVenueHallId(venueHall.getId()),
+                venueSeatRepository.findAllByVenueHallId(venueHall.getId()),
                 eventCreationDto.date()
         );
 

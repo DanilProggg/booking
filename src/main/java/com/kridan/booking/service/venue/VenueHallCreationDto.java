@@ -5,7 +5,7 @@ import java.util.List;
 public record VenueHallCreationDto(
         String name,
         String description,
-        List<VenueSeatUnitCreationDto> venueSeatUnitCreationDtoList
+        List<VenueSeatUnitCreationDto> venueSeatList
 ) {
 }
 

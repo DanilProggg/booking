@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class TicketHoldService {
+public class HoldTicketService {
 
     private final TicketRepository ticketRepository;
 

@@ -1,7 +1,7 @@
 package com.kridan.booking.controller;
 
 import com.kridan.booking.exceptions.SeatUnavailableException;
-import com.kridan.booking.service.tickets.TicketHoldService;
+import com.kridan.booking.service.tickets.HoldTicketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,12 +16,12 @@ import java.util.List;
 @RequestMapping("/api")
 public class TicketController {
 
-    private final TicketHoldService ticketHoldService;
+    private final HoldTicketService holdTicketService;
 
     @PostMapping("/events/{eventId}/hold")
     public ResponseEntity<?> holdSeat(@PathVariable Long eventId, @RequestBody List<Long> ticketId){
         try {
-            ticketHoldService.holdTicket(ticketId, eventId);
+            holdTicketService.holdTicket(ticketId, eventId);
             return ResponseEntity.noContent().build();
         } catch (SeatUnavailableException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Ticket unavailable ");

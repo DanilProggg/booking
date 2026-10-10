@@ -19,12 +19,12 @@ public class Ticket {
     @Column(nullable = false)
     private String status; //FREE, HELD, PENDING, SOLD
 
-    private String holdKey;  //Key to mark group of ticket in pending
-
-    private Date holdExpiresAt; //Holding expiration time
-
     @Column(nullable = true)
     private int cost;  //Default Euro
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "event_id", nullable = false)

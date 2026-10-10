@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        // Эквайринг не логинится — подлинность проверяет parseNotification
+                        .requestMatchers("/api/payments/notifications").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

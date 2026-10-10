@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public record PaymentRequest(
         UUID orderId,
-        String orderNumber,
         BigDecimal amount,
         String customerEmail,
         List<ReceiptItem> items,

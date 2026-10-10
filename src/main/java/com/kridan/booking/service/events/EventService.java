@@ -2,7 +2,7 @@ package com.kridan.booking.service.events;
 
 import com.kridan.booking.entity.Event;
 import com.kridan.booking.entity.VenueHall;
-import com.kridan.booking.service.events.exceptions.EventNotFindException;
+import com.kridan.booking.service.events.exceptions.EventNotFoundException;
 import com.kridan.booking.service.venue.HallNotFoundException;
 import com.kridan.booking.repository.EventRepository;
 import com.kridan.booking.repository.VenueHallRepository;
@@ -98,7 +98,7 @@ public class EventService {
     public EventDto getEventById(Long eventId) {
 
         Event event = eventRepository.findById(eventId).orElseThrow(
-                () -> new EventNotFindException(String.format("Event with ID %d not found", eventId))
+                () -> new EventNotFoundException(String.format("Event with ID %d not found", eventId))
         );
 
          EventDto eventDto = new EventDto(event.getId(),

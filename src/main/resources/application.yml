@@ -21,7 +21,12 @@ spring:
       path: /h2-console
 
 logging:
-    root: INFO
-    level:
-      org.hibernate.SQL: DEBUG
+  root: INFO
+  level:
+    org.hibernate.SQL: DEBUG
 
+booking:
+  base-url: http://localhost:8080
+  hold:
+    selection-ttl: PT15M
+    payment-ttl: PT20M

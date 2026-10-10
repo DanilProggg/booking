@@ -67,10 +67,10 @@ public class OrderTransactions {
         Order order = orderRepository.findById(orderUUID)
                 .orElseThrow(() -> new OrderNotFoundException("Заказ не найден"));
 
-        if (order.getStatus() == "PENDING") {
+        if (order.getStatus().equals("PENDING")) {
             return new CheckoutResponse(orderUUID, intent.value(), order.getExpiresAt());
         }
-        if (order.getStatus() != "CREATED") {
+        if (!order.getStatus().equals("CREATED")) {
             throw new OrderStateException("Заказ в состоянии " + order.getStatus());
         }
 
